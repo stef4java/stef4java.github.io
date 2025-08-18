@@ -58,7 +58,7 @@ ls -al themes/LoveIt
 ```bash
 # 在`site`的根目录下执行
 cp -rf  themes/LoveIt/exampleSite/*  ./
-``` 
+```
 调整`hugo.toml`配置文件
 ```yml
 baseURL = "https://<username>.github.io/"
@@ -176,8 +176,11 @@ jobs:
 自此，博客已成功自动构建&部署到github pages上，但还有很多优化事项没做，如 图床方案，主题调整，添加评论插件，添加访问量统计等等，后面有时间再把待优化的事项完成。
 
 # 4. 遇到的错误
-## 4.1 GitHub Actions时报错。`failed to extract shortcode: template for shortcode "style" not found`
-
+## 4.1 GitHub Actions时报错。
+异常:
+```
+failed to extract shortcode: template for shortcode "style" not found
+```
 解决方法:
 ```yml
 # 1. 调整hugo-version: '0.145.0'
@@ -192,7 +195,12 @@ jobs:
     submodules: true   # 👈 开启子模块
     fetch-depth: 0     # 👈 获取全部历史记录
 ```
-## 4.2 Failed to read Git log: fatal: your current branch 'main' does not have any commits yet”,尝试读取git log异常。
+## 4.2 构建时尝试读取git log异常。
+异常:
+```
+Failed to read Git log: fatal: your current branch 'main' does not have any commits yet”
+```
+解决方法:
 ```yml
 # 调整`hugo.toml`配置文件
 # 🔥是否使用 git 信息，此处需要设置为false，否则在`hugo server -D`时会报错
@@ -200,6 +208,6 @@ enableGitInfo = false
 ```
 
 # 5. 参考文章
-1. <用Hugo构建我的Blog>,https://weilanjin.github.io/posts/%E6%88%91%E7%9A%84hugo/
-2. <利用GitHub Action实现Hugo博客在GitHub Pages自动部署>,https://juejin.cn/post/7399982698854891583
-3. <基于 Github Action 自动构建 Hugo 博客>,https://www.lixueduan.com/posts/blog/01-github-action-deploy-hugo/
+1. [用Hugo构建我的Blog](https://weilanjin.github.io/posts/%E6%88%91%E7%9A%84hugo/)
+2. [利用GitHub Action实现Hugo博客在GitHub Pages自动部署](https://juejin.cn/post/7399982698854891583)
+3. [基于 Github Action 自动构建 Hugo 博客](https://www.lixueduan.com/posts/blog/01-github-action-deploy-hugo/)
