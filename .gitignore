@@ -21,4 +21,4 @@ themes/**/*       # 递归忽略主题内文件
 !themes/*/        # 保留每个主题的目录名
 
 # hugo 可执行文件，LoveIt暂时与v148版本不兼容,此处hugo为v145
-hugo
+.hugo
