@@ -30,7 +30,7 @@ lightgallery: true
 * 做法2(本文做法):	一个仓库，多个分支模式，`main`分支存放`内容源码(如markdown文章)`， `gh-pages`分支存放通过`Github Action`生成的静态页面。
 
 # 2. 开始搭建
-### 2.1 hugo环境准备
+## 2.1 hugo环境准备
 ```bash
 # 安装hugo
 brew install hugo
@@ -40,7 +40,7 @@ hugo version
 # 创建site,即:博客
 hugo new site blog
 ```
-### 2.2 为博客添加一个主题
+## 2.2 为博客添加一个主题
 ```bash
 # 进入到blog目录下
 cd blog
@@ -53,7 +53,7 @@ git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt
 ls -al themes/LoveIt
 ```
 
-### 2.3 查看`LoveIt theme`自带`exampleSite`的效果并创建一篇文章
+## 2.3 查看`LoveIt theme`自带`exampleSite`的效果并创建一篇文章
 拷贝exampleSite到`site`的根目录下
 ```bash
 # 在`site`的根目录下执行
@@ -86,7 +86,7 @@ hugo server -D
 hugo new posts/my-first-post.md
 ```
 随后在`content/posts`下可以找到`my-first-post.md`文件，用自己的熟悉的markdown编辑器编辑文章即可
-### 2.4 使用`github action`自动部署到`github pages`
+## 2.4 使用`github action`自动部署到`github pages`
 登录自己的github,创建`github pages`仓库，仓库名应为 `<username>/<username>.github.io`,
 创建`.gitignore`文件，防止无用文件提交到仓库
 ```
