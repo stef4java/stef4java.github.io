@@ -27,4 +27,6 @@ lightgallery: true
 
 # 1. 常见做法
 * 做法1: `发布仓库（Pages站点仓库）` 和 `内容仓库（markdown源码）` 分为两个仓库，在`内容仓库（markdown源码）`提交文章后，自动触发`内容仓库`预先配置的Actions,执行对应的action构建打包并发布到`Github Pages站点仓库`,随后访问`https://<username>.github.io/`即可看到博客。
-* 做法2:	一个仓库，多个分支模式，`main`分支存放`内容源码(如markdown文章)`， `gh-pages`分支存放通过`Github Action`生成的静态页面。
+* 做法2(本文做法):	一个仓库，多个分支模式，`main`分支存放`内容源码(如markdown文章)`， `gh-pages`分支存放通过`Github Action`生成的静态页面。
+
+# 
