@@ -198,3 +198,8 @@ jobs:
 # 🔥是否使用 git 信息，此处需要设置为false，否则在`hugo server -D`时会报错
 enableGitInfo = false
 ```
+
+# 5. 参考文章
+1. <用Hugo构建我的Blog>,https://weilanjin.github.io/posts/%E6%88%91%E7%9A%84hugo/
+2. <利用GitHub Action实现Hugo博客在GitHub Pages自动部署>,https://juejin.cn/post/7399982698854891583
+3. <基于 Github Action 自动构建 Hugo 博客>,https://www.lixueduan.com/posts/blog/01-github-action-deploy-hugo/
