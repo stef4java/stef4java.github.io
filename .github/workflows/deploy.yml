@@ -1,0 +1,30 @@
+name: Deploy Hugo site to Pages
+
+on:
+  push:
+    branches:
+      - main   # 🚨 这里写你 Hugo 源码所在的分支，比如 main 或 master
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v3
+        with:
+          hugo-version: 'latest'   # 固定版本的话可以写具体版本号
+
+      - name: Build
+        run: hugo --minify
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public   # Hugo 默认输出目录
+          # 下面两个选项会自动生成 .nojekyll，防止 GitHub Pages 当成 Jekyll
+          enable_jekyll: false
+          force_orphan: true
