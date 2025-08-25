@@ -1,8 +1,8 @@
 ---
 weight: 1
 title: "个人博客搭建之搭建篇-(Hugo + Github Pages + Github Action自动发布)"
-date: 2025-08-18T15:35:59+08:00
-lastmod: 2025-08-18T15:35:59+08:00
+date: 2024-08-18T15:35:59+08:00
+lastmod: 2024-08-18T15:35:59+08:00
 draft: false
 author: "Stef"
 authorLink: ""
