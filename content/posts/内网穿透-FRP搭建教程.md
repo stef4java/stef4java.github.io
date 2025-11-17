@@ -134,7 +134,7 @@ remotePort = 6002
 ```
 将可执行文件和配置文件移动到指定目录
 ```sh
-sudo mv frpc.service /lib/systemd/system/
+sudo mv frpc /usr/local/bin/
 sudo mv frpc.toml  /usr/local/etc/
 ```
 创建 `frpc.service` 文件,`vim /lib/systemd/system/frpc.service`
