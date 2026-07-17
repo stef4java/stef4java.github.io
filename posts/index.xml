@@ -1,0 +1,47 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - Stef's Blog</title><link>https://stef4java.github.io/posts/</link><description>所有文章 | Stef's Blog</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 25 Aug 2024 14:50:09 +0800</lastBuildDate><atom:link href="https://stef4java.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>个人博客搭建之搭建篇-(Hugo + Github Pages + Github Action自动发布)</title><link>https://stef4java.github.io/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E6%90%AD%E5%BB%BA%E7%AF%87-hugo--github-pages--github-action%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83/</link><pubDate>Sun, 18 Aug 2024 15:35:59 +0800</pubDate><author>Stef</author><guid>https://stef4java.github.io/%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA%E4%B9%8B%E6%90%AD%E5%BB%BA%E7%AF%87-hugo--github-pages--github-action%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83/</guid><description><![CDATA[<blockquote>
+<p>利用Hugo + Github Pages搭建个人博客，并用Github Action实现自动发布。</p></blockquote>
+<h1 id="0-使用到的工具">0. 使用到的工具</h1>
+<ul>
+<li>Hugo: 静态页面生成工具。</li>
+<li>Github Pages: 静态网站托管平台。</li>
+<li>Github Action: 自动部署工作流，将<code>Hugo</code>生成的静态页面发布到<code>Github Pages</code>上。</li>
+</ul>
+<h1 id="1-常见做法">1. 常见做法</h1>
+<ul>
+<li>做法1: <code>发布仓库（Pages站点仓库）</code> 和 <code>内容仓库（markdown源码）</code> 分为两个仓库，在<code>内容仓库（markdown源码）</code>提交文章后，自动触发<code>内容仓库</code>预先配置的Actions,执行对应的action构建打包并发布到<code>Github Pages站点仓库</code>,随后访问<code>https://&lt;username&gt;.github.io/</code>即可看到博客。</li>
+<li>做法2(本文做法):	一个仓库，多个分支模式，<code>main</code>分支存放<code>内容源码(如markdown文章)</code>， <code>gh-pages</code>分支存放通过<code>Github Action</code>生成的静态页面。</li>
+</ul>
+<h1 id="2-开始搭建">2. 开始搭建</h1>
+<h2 id="21-hugo环境准备">2.1 hugo环境准备</h2>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 安装hugo</span>
+</span></span><span class="line"><span class="cl">brew install hugo
+</span></span><span class="line"><span class="cl"><span class="c1"># 🔥:安装的是最新版的hugo，版本v0.148,博主用的主题LoveIt在v0.148报错，所以吧hugo版本降为0.145.0 后正常</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 查看版本</span>
+</span></span><span class="line"><span class="cl">hugo version
+</span></span><span class="line"><span class="cl"><span class="c1"># 创建site,即:博客</span>
+</span></span><span class="line"><span class="cl">hugo new site blog</span></span></code></pre></div></div>
+<h2 id="22-为博客添加一个主题">2.2 为博客添加一个主题</h2>
+<div class="code-block code-line-numbers open" style="counter-reset: code-block 0">
+    <div class="code-header language-bash">
+        <span class="code-title"><i class="arrow fas fa-angle-right fa-fw" aria-hidden="true"></i></span>
+        <span class="ellipses"><i class="fas fa-ellipsis-h fa-fw" aria-hidden="true"></i></span>
+        <span class="copy" title="复制到剪贴板"><i class="far fa-copy fa-fw" aria-hidden="true"></i></span>
+    </div><div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># 进入到blog目录下</span>
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> blog
+</span></span><span class="line"><span class="cl"><span class="c1"># 🔥 注意:以下命令都是在`blog目录`下执行，`blog目录`是 `site`的根目录 </span>
+</span></span><span class="line"><span class="cl"><span class="c1"># 需要本地安装git</span>
+</span></span><span class="line"><span class="cl">git init
+</span></span><span class="line"><span class="cl"><span class="c1"># 以`git submodule`的方式添加主题，比`git clone`灵活，方便版本管理与后续更新</span>
+</span></span><span class="line"><span class="cl">git submodule add https://github.com/dillonzq/LoveIt.git themes/LoveIt
+</span></span><span class="line"><span class="cl"><span class="c1"># 下载后的`LoveIt`主题在 `themes`下，确认下</span>
+</span></span><span class="line"><span class="cl">ls -al themes/LoveIt</span></span></code></pre></div></div>
+<h2 id="23-查看loveit-theme自带examplesite的效果并创建一篇文章">2.3 查看<code>LoveIt theme</code>自带<code>exampleSite</code>的效果并创建一篇文章</h2>
+<p>拷贝exampleSite到<code>site</code>的根目录下</p>]]></description></item><item><title>内网穿透-利用 FRP 实现内网穿透，让家里的服务器秒变“永远在线”的云主机</title><link>https://stef4java.github.io/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F-frp%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</link><pubDate>Sun, 25 Aug 2024 14:50:09 +0800</pubDate><author>Stef</author><guid>https://stef4java.github.io/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F-frp%E6%90%AD%E5%BB%BA%E6%95%99%E7%A8%8B/</guid><description><![CDATA[<blockquote>
+<p>利用 FRP 实现内网穿透，让家里的服务器秒变“永远在线”的云主机</p></blockquote>
+<h1 id="0-需求场景">0. 需求场景</h1>
+<p>👉在日常工作和生活中，我们常常需要远程访问内网资源，FRP 就是一个高效解决方案。</p>]]></description></item></channel></rss>
