@@ -58,7 +58,7 @@ webServer.password = "your_password"
 ```
 将可执行文件和配置文件移动到指定目录
 ```sh
-sudo mv frps.service /lib/systemd/system/
+sudo mv frps /usr/local/bin/
 sudo mv frps.toml  /usr/local/etc/
 ```
 创建 `frps.service` 文件,`vim /lib/systemd/system/frps.service`
